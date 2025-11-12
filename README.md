@@ -85,72 +85,25 @@ Real-time alerting on failures
 Complete audit trail
 Zero data loss guarantee
 
-
+-----------------------------------
 🏗️ Architecture
 High-Level Flow
-┌─────────────┐
-│   Website   │
-│    Form     │
-└──────┬──────┘
-       │ JSON POST
-       ↓
-┌─────────────────────────────────────────────────┐
-│              WEBHOOK ENTRY POINT                │
-│         (Accepts lead data from any source)     │
-└──────┬──────────────────────────────────────────┘
-       │
-       ↓
-┌──────────────────────────────────────────────────┐
-│           DATA PREPROCESSING LAYER               │
-│  ┌──────────┐  ┌──────────┐  ┌───────────┐     │
-│  │ Validate │→ │ Normalize│→ │ Structure │     │
-│  └──────────┘  └──────────┘  └───────────┘     │
-└──────┬───────────────────────────────────────────┘
-       │
-       ↓
-┌──────────────────────────────────────────────────┐
-│            AI INTELLIGENCE LAYER                 │
-│         ┌─────────────────────┐                  │
-│         │  GPT-4 Scoring      │                  │
-│         │  - Job Title        │                  │
-│         │  - Industry Fit     │                  │
-│         │  - Budget           │                  │
-│         │  - Intent Signals   │                  │
-│         └──────┬──────────────┘                  │
-│                │ Score: 95/100                   │
-│                │ Tier: Hot                       │
-└────────────────┼─────────────────────────────────┘
-                 │
-                 ↓
-         ┌───────────────┐
-         │ SMART ROUTER  │
-         └───┬───┬───┬───┘
-             │   │   │
-    ┌────────┘   │   └────────┐
-    │            │            │
-Hot │      Warm  │      Cold  │
-80-100     50-79       0-49   │
-    │            │            │
-    ↓            ↓            ↓
-┌───────┐   ┌────────┐   ┌────────┐
-│AI Gen │   │Standard│   │Archive │
-│Email  │   │Nurture │   │ Queue  │
-└───┬───┘   └────┬───┘   └────┬───┘
-    │            │            │
-    ↓            ↓            ↓
-┌───────────────────────────────────┐
-│    PARALLEL EXECUTION LAYER       │
-│  ┌──────┐ ┌──────┐ ┌──────┐      │
-│  │Gmail │ │HubSpot│ │Slack │      │
-│  └──────┘ └──────┘ └──────┘      │
-│  ┌──────────────────────┐         │
-│  │   Google Sheets      │         │
-│  │   (Audit Trail)      │         │
-│  └──────────────────────┘         │
-└───────────────────────────────────┘
-         │
-         ↓
-    ⏱️ 30 Seconds Total
+
+
+<img width="433" height="628" alt="Screenshot 2025-11-12 at 10 26 39 AM" src="https://github.com/user-attachments/assets/fd492dea-8890-48ee-8c3b-9b001e7b29a7" />
+
+-----------------------------------
+
+<img width="266" height="500" alt="Screenshot 2025-11-12 at 10 31 30 AM" src="https://github.com/user-attachments/assets/5c6115ad-5bea-4c81-96a1-d2c879874ff9" />
+
+-----------------------------------
+
+  <img width="159" height="67" alt="Screenshot 2025-11-12 at 10 16 13 AM" src="https://github.com/user-attachments/assets/9bbd5286-115f-40fa-802a-cdbac3978d99" />
+
+
+
+
+
 Node-by-Node Breakdown
 Node #NameFunctionOutput1Lead Capture WebhookReceives JSON payload from any sourceRaw lead data2Workflow ConfigurationValidates, sets parameters, configures runtimeValidated config3Normalize Lead DataCleans, trims, standardizes formatsClean data4Structure Clean DataOrganizes into hierarchical schemaStructured object5Organize Enriched DataPrepares enrichment placeholdersEnrichment-ready6GPT-4 Lead ScoringAI analyzes and scores lead contextuallyScore + reasoning7Parse AI ResponseExtracts score, tier, insightsStructured score8Route by TierConditional routing based on scoreBranch selection9Generate Personalized ContentAI writes custom emailPersonalized email10Send Personalized EmailGmail API deliveryEmail sent11Create HubSpot ContactCRM contact creation/updateCRM record12Notify Sales TeamSlack alert with lead detailsTeam notification13Log Hot LeadGoogle Sheets audit trailLogged record14Log Warm LeadStandard follow-up queueLogged record15Log Cold LeadArchive queueLogged record16Archive DisqualifiedFinal storage for non-prospectsArchived17Error TriggerCatches any node failureError object18Format Error DetailsStructures error informationError report19Workflow AlertsSlack engineering notificationAlert sent20Log Error to SheetsError audit trailError logged
 
